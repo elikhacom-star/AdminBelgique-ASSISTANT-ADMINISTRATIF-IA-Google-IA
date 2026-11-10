@@ -1,0 +1,38 @@
+[
+  {
+    "id": "DOS-2026-88",
+    "title": "Contrat de Bail Résidence Principale - Ixelles",
+    "category": "Immobilier / Région Bruxelles",
+    "date": "06/11/2026",
+    "status": "Conforme & Enregistrable",
+    "statusColor": "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    "action": "Télécharger PDF"
+  },
+  {
+    "id": "DOS-2026-87",
+    "title": "Mise en Demeure de Paiement Facture Impayée",
+    "category": "Recouvrement B2B",
+    "date": "04/11/2026",
+    "status": "Notifié au Débiteur",
+    "statusColor": "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    "action": "Suivi Échéance 14j"
+  },
+  {
+    "id": "DOS-2026-85",
+    "title": "Analyse Avertissement-Extrait de Rôle SPF Finances",
+    "category": "Fiscalité IPP 2025/2024",
+    "date": "02/11/2026",
+    "status": "Communication Validée",
+    "statusColor": "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    "action": "Voir Recours"
+  },
+  {
+    "id": "DOS-2026-81",
+    "title": "Indexation Loyer Statbel - Appartement Liège",
+    "category": "Statbel Indice Santé",
+    "date": "28/10/2026",
+    "status": "Courrier Prêt (+52.99 €)",
+    "statusColor": "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    "action": "Imprimer"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "uid": "admin-001",
+    "email": "admin@adminbelgique.com",
+    "displayName": "Marc Vandewalle",
+    "role": "admin",
+    "status": "active",
+    "company": "AdminBelgique SPRL / elikacces IT",
+    "createdAt": "15/01/2026"
+  },
+  {
+    "uid": "editor-002",
+    "email": "redaction@adminbelgique.com",
+    "displayName": "Sophie De Smet",
+    "role": "editor",
+    "status": "active",
+    "company": "Cabinet Juridique & Fiduciaire",
+    "createdAt": "20/03/2026"
+  },
+  {
+    "uid": "visitor-003",
+    "email": "visiteur.demo@gmail.com",
+    "displayName": "Lucas Peeters",
+    "role": "visitor",
+    "status": "active",
+    "company": "Particulier",
+    "createdAt": "10/05/2026"
+  }
+]

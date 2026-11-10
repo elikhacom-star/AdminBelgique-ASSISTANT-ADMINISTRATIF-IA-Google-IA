@@ -1,0 +1,24 @@
+# Configuration Apache / cPanel Passenger pour app.adminbelgique.com
+# Placez ce fichier à la racine de votre application dans cPanel (ex: public_html ou sous-domaine app)
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Si Passenger Node.js est activé via cPanel Node.js Selector, Passenger prend le relais automatiquement.
+    # Dans le cas d'un reverse proxy Apache vers le port 3000 Node.js :
+    # RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+</IfModule>
+
+# En-têtes de sécurité
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript application/json
+</IfModule>

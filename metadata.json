@@ -1,0 +1,6 @@
+{
+  "name": "AdminBelgique - E-Administration & IA Belge",
+  "description": "Plateforme indépendante d'assistance administrative propulsée par l'IA pour citoyens, indépendants, PME, fiduciaires et professionnels en Belgique.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

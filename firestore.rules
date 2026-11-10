@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for Authentication & RBAC
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+
+    function isEditor() {
+      return isAuthenticated() && (getUserRole() == 'editor' || getUserRole() == 'admin');
+    }
+
+    // Collection: Users (RBAC & Profiles)
+    match /users/{userId} {
+      // Any authenticated user can read profiles (or their own)
+      allow read: if isAuthenticated();
+
+      // Only an Admin can create or update roles and permissions
+      // A user can create their own initial profile as 'visitor' upon registration
+      allow create: if isAuthenticated() && (
+        isAdmin() || (isOwner(userId) && request.resource.data.role == 'visitor')
+      );
+
+      // Only admins can modify user roles, users can only update their display name
+      allow update: if isAuthenticated() && (
+        isAdmin() || (isOwner(userId) && request.resource.data.role == resource.data.role)
+      );
+
+      // Only admins can delete user records
+      allow delete: if isAdmin();
+    }
+
+    // Collection: Dossiers & Administrative Documents
+    match /dossiers/{dossierId} {
+      // Visiteur, Éditeur et Administrateur peuvent lire les dossiers
+      allow read: if isAuthenticated();
+
+      // Éditeur et Administrateur peuvent créer et modifier les dossiers
+      allow create: if isEditor() && request.resource.data.createdBy == request.auth.uid;
+      allow update: if isEditor();
+
+      // Seul l'Administrateur peut supprimer définitivement un dossier
+      allow delete: if isAdmin();
+    }
+
+    // Collection: Audit Logs (Journal d'audit de sécurité)
+    match /audit_logs/{logId} {
+      // Seul l'Administrateur peut consulter le journal d'audit
+      allow read: if isAdmin();
+
+      // Tout utilisateur authentifié peut inscrire un événement d'audit (ex: connexion, modification)
+      allow create: if isAuthenticated() && request.resource.data.actorUid == request.auth.uid;
+
+      // Les logs ne peuvent jamais être modifiés ni effacés (immuabilité)
+      allow update, delete: if false;
+    }
+  }
+}

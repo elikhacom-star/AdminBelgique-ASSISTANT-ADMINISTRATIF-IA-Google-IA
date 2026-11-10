@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  adminbelgique:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: adminbelgique_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/auth/check"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

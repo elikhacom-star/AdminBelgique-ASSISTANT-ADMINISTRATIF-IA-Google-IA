@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Utilisateur de la plateforme avec son rôle RBAC et ses permissions",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Identifiant Firebase Auth unique" },
+        "email": { "type": "string", "format": "email", "description": "Adresse email de l'utilisateur" },
+        "displayName": { "type": "string", "description": "Nom complet ou raison sociale" },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "editor", "visitor"],
+          "description": "Rôle attribué (Administrateur, Éditeur, Visiteur)"
+        },
+        "permissions": {
+          "type": "object",
+          "description": "Permissions détaillées pour chaque section front-end et back-end"
+        },
+        "createdAt": { "type": "string", "description": "Date de création" },
+        "updatedAt": { "type": "string", "description": "Date de dernière mise à jour" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Dossier": {
+      "title": "Dossier",
+      "description": "Dossier administratif, bail ou contestation SPF/ONSS",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Identifiant unique du dossier" },
+        "title": { "type": "string", "description": "Titre du dossier" },
+        "category": { "type": "string", "description": "Catégorie administrative" },
+        "status": { "type": "string", "description": "Statut (En cours, Validé, Archivé)" },
+        "createdBy": { "type": "string", "description": "UID du créateur" },
+        "data": { "type": "object", "description": "Données associées au dossier" },
+        "createdAt": { "type": "string", "description": "Date de création" },
+        "updatedAt": { "type": "string", "description": "Date de mise à jour" }
+      },
+      "required": ["id", "title", "createdBy"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Journal d'audit de sécurité et modifications de rôles",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Identifiant de l'événement" },
+        "action": { "type": "string", "description": "Type d'action effectuée" },
+        "actorUid": { "type": "string", "description": "UID de l'exécutant" },
+        "actorRole": { "type": "string", "description": "Rôle de l'exécutant" },
+        "details": { "type": "string", "description": "Description détaillée" },
+        "timestamp": { "type": "string", "description": "Horodatage ISO" }
+      },
+      "required": ["id", "action", "actorUid", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "Profils utilisateurs et attribution des rôles RBAC (Administrateur, Éditeur, Visiteur)"
+    },
+    "/dossiers/{dossierId}": {
+      "schema": { "$ref": "Dossier" },
+      "description": "Dossiers administratifs créés et édités selon les permissions du rôle"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "AuditLog" },
+      "description": "Journal d'audit accessible uniquement aux Administrateurs"
+    }
+  }
+}
